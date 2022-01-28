@@ -6,8 +6,8 @@ const request = indexedDB.open('budget_log', 1);
 request.onupgradeneeded = function(event) { //this event will emit if version changes
     const db = event.target.result; //save a reference to the database 
 
-    //create an obj  called budget_log (auto increment) within the local scope
-    db.createObjectStore('budget_log', { autoIncrement: true });
+    //create an obj  called new_budget (auto increment) within the local scope
+    db.createObjectStore('new_budget', { autoIncrement: true });
 };
 
 request.onsuccess = function(event) { //db successfuly connect
@@ -25,28 +25,25 @@ request.onerror = function(event) { //upon error, console log the error here
 function saveRecord(record) {
 
     // open a new transaction with the db with read and write permissions 
-    const transaction = db.transaction(['budget_log'], 'readwrite');
+    const trans = db.transaction(['new_budget'], 'readwrite');
 
     // access the object store for `new_budget`
-    const budgetObjectStore = transaction.objectStore('new_budget');
+    const budgetObjectStore = trans.objectStore('new_budget');
 
     budgetObjectStore.add(record); //add record to your store with add method
 }
 
 function uploadSpending() {
 
+    const trans = db.transaction(['new_budget'], 'readwrite'); //open transaction on db
+    const budgetObjectStore = trans.objectStore('new_budget'); //access your object store
 
-    const transaction = db.transaction(['new_budget'], 'readwrite'); //open transaction on db
 
-    // access your object store
-    const budgetObjectStore = transaction.objectStore('new_budget');
-
-    // get all records from store and set to a variable
-    const getAll = budgerObjectStore.getAll();
+    const getAll = budgetObjectStore.getAll(); //get all record from store and set to a variable
 
     getAll.onsuccess = function() { //if successful, .getAll() execution
         if (getAll.result.length > 0) { //if data stored in indexedDB, sent it to api server
-            fetch('/api/budgets', {
+            fetch('/api/transaction', {
                     method: 'POST',
                     body: JSON.stringify(getAll.result),
                     headers: {
@@ -57,8 +54,8 @@ function uploadSpending() {
                 .then(serverResponse => {
                     if (serverResponse.message) { throw new Error(serverResponse); }
 
-                    const transaction = db.transaction(['new_budget'], 'readwrite');
-                    const budgetObjectStore = transaction.objectStore('new_budget');
+                    const trans = db.transaction(['new_budget'], 'readwrite');
+                    const budgetObjectStore = trans.objectStore('new_budget');
                     budgetObjectStore.clear();
 
                     alert('All saved budget has been submitted!');
