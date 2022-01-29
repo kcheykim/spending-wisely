@@ -31,7 +31,7 @@ Ensure that you have mongoDB by running `mongod` at the command prompt. <br />
 ## Usage
 Here are the images and links of the pages: <br />
 ![spending-wisely]](./assets/images/spending-wisely.png?raw=true)<br />
-https://whispering-ridge-86387.herokuapp.com/
+https://tranquil-eyrie-70461.herokuapp.com/
 
 ## Credits
 Here are the list of collaborators:  
