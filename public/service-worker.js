@@ -1,5 +1,3 @@
-// Uncomment the lines below to set up the cache files
-
 //create two caches
 const CACHE_NAME = 'budget-site-cache-v1';
 const DATA_CACHE_NAME = 'budget-data-cache-v1';

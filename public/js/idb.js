@@ -10,7 +10,7 @@ request.onupgradeneeded = function(event) { //this event will emit if version ch
     db.createObjectStore('new_budget', { autoIncrement: true });
 };
 
-request.onsuccess = function(event) { //db successfuly connect
+request.onsuccess = function(event) { //db successfully connect
     db = event.target.result; //save a reference to db global variable
 
     //check if app is online, then run uploadSpending() to send local data to api
@@ -58,7 +58,7 @@ function uploadSpending() {
                     const budgetObjectStore = trans.objectStore('new_budget');
                     budgetObjectStore.clear();
 
-                    alert('All saved budget has been submitted!');
+                    alert('All offline transaction has been submitted!');
                 }).catch(err => { console.log(err); });
         }
     };

@@ -101,6 +101,9 @@ function sendTransaction(isAdding) {
     // if subtracting funds, convert amount to negative number
     if (!isAdding) {
         transaction.value *= -1;
+        alert("Negative impact to your budget!");
+    } else {
+        alert("Wonderful, more money is added to your budget");
     }
 
     // add to beginning of current array of data
